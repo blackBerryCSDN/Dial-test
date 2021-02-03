@@ -1,0 +1,1 @@
+<view class="ct_tab"><block wx:for="{{tabList}}" wx:for-item="item" wx:for-index="index" wx:key="index"><view data-event-opts="{{[['tap',[['clickCtTab',[index]]]]]}}" class="{{['ct_item',(tabCur==index)?'ct_active':'']}}" bindtap="__e"><text>{{item.title}}</text><view hidden="{{!(tabCur==index)}}" class="num">{{item.num}}</view></view></block></view>

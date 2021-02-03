@@ -1,0 +1,188 @@
+<template>
+	<view class="scene-wrap">
+		<!-- 顶部tab -->
+		<nav-tab :tabList="tabList" @tabItemClick="tabCurInfo"></nav-tab>
+		
+		<!-- 内容区 -->
+		<view class="tab-content">
+			<view v-for="(item, index) in sceneList" :key="index" class="item-body">
+				<!-- 标题 -->
+				<view class="item-top">
+					<mol-title :titleInfo="item.title" :followShow="true" :followInfo="item.follow" :createrInfo="item.creater"></mol-title>
+				</view>
+				
+				<view class="item-content">
+					<view class="item">
+						<view class="item-icon rate">
+							<image src="../../static/image/scene/rate.png"></image>
+						</view>
+						<view class="item-name">成功率</view>
+						<view class="rate-color">{{item.rate}}</view>
+					</view>
+					<view class="item">
+						<view class="item-icon alarm">
+							<image src="../../static/image/scene/alarm-white.png"></image>
+						</view>
+						<view class="item-name">告警数</view>
+						<view class="alarm-color">{{item.alarm}}</view>
+					</view>
+					<view class="item">
+						<view class="item-icon terminal">
+							<image src="../../static/image/scene/terminal.png"></image>
+						</view>
+						<view class="item-name">终端(在线/离线)</view>
+						<view class="terminal-color">{{item.terminal}}</view>
+					</view>
+				</view>
+				
+				<view class="item-footer">
+					<text @click="sceneSurvey">场景概况</text>
+					<text @click="alarmSurvey">告警概况</text>
+				</view>
+			</view>
+		</view>
+	</view>
+</template>
+
+<script>
+	import navTab from '@/components/common/nav-tab/nav-tab.vue'
+	import molTitle from '@/components/common/mol-title/mol-title.vue'
+	export default {
+		components: {
+			navTab,
+			molTitle
+		},
+		data() {
+			return {
+				tabList: [
+					{title: '我的场景', num: 12},{title: '公共场景', num: 15}
+				],
+				sceneList: [
+					{
+						title: 'CDN演示测试', 
+						creater: 'root', 
+						follow: true,
+						rate: '100.00%',
+						alarm: '15',
+						terminal: '0/1',
+						}, 
+					{
+						title: 'CDN演示测试', 
+						creater: 'root', 
+						follow: false,
+						rate: '100.00%',
+						alarm: '15',
+						terminal: '0/1'
+						},
+						{
+							title: 'CDN演示测试', 
+							creater: 'root', 
+							follow: true,
+							rate: '100.00%',
+							alarm: '15',
+							terminal: '0/1',
+							}, 
+						{
+							title: 'CDN演示测试', 
+							creater: 'root', 
+							follow: false,
+							rate: '100.00%',
+							alarm: '15',
+							terminal: '0/1'
+							},
+				]
+			}
+		},
+		methods: {
+			// navtab点击切换
+			 tabCurInfo(e) {
+				 console.log(e)
+			 },
+			 
+			 // 跳转场景概况
+			 sceneSurvey() {
+				 uni.navigateTo({
+				 	url: '../components/scene-survey/scene-survey'
+				 })
+			 },
+			 
+			 // 跳转告警汇总
+			 alarmSurvey() {
+				 uni.navigateTo({
+					url: '../components/alarm-summary/alarm-summary'
+				 })
+			 }
+		}
+	}
+</script>
+
+<style lang="scss" scoped>
+.scene-wrap {
+	.tab-content {
+		.item-body {
+			background-color: #fff;
+			margin: 10rpx 0 20rpx;
+			padding: 20rpx;
+			display: flex;
+			flex-direction: column;
+			.item-content {
+				border-bottom: 1px solid #e7e7e7;
+				display: flex;
+				.item {
+					display: flex;
+					flex: 1;
+					padding: 20rpx 0;
+					flex-direction: column;
+					align-items: center;
+					font-size: 28rpx;
+					.item-icon {
+						width: 100rpx;
+						height: 100rpx;
+						border-radius: 50%;
+						image {
+							width: 50rpx;
+							height: 50rpx;
+							margin: 25rpx;
+							
+						}
+					}
+					.rate {
+						background-image: linear-gradient(#9fceff, #409eff);
+					}
+					.alarm {
+						background-image: linear-gradient(#ff77a1, #fe1c61);
+					}
+					.terminal {
+						background-image: linear-gradient(#7f9bfd, #1948fa);
+					}
+					.item-name {
+						font-weight: bold;
+						margin: 10rpx 0;
+					}
+					.rate-color {
+						color: $theme-color;
+					}
+					.alarm-color {
+						color: #fe2265;
+					}
+					.terminal-color {
+						color: #2351fa;
+					}
+				}
+			}
+			.item-footer {
+				display: flex;
+				margin-top: 20rpx;
+				text {
+					border: 1px solid #0498fc;
+					font-size: 24rpx;
+					border-radius: 60rpx;
+					padding: 6rpx 20rpx;
+					color: $theme-color;
+					margin-right: 20rpx;
+				}
+			}
+		}
+	}
+}
+</style>

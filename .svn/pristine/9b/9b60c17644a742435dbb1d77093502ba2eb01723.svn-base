@@ -1,0 +1,93 @@
+<template>
+	<view class="terminal-wrap">
+		<view class="content">
+			<view class="title">
+				<mol-title :titleInfo="titleInfo"></mol-title>
+			</view>
+			<view class="body">
+				<view class="box">
+					<view>状态</view>
+					<view>在线</view>
+					<view>离线</view>
+					<view>总数</view>
+				</view>
+				<view class="box">
+					<view class="status">空闲</view>
+					<view>3</view>
+					<view class="outline">27</view>
+					<view>30</view>
+				</view>
+				<view class="box">
+					<view class="status">一般</view>
+					<view>1</view>
+					<view class="outline">9</view>
+					<view>10</view>
+				</view>
+				<view class="box">
+					<view class="status">繁忙</view>
+					<view>3</view>
+					<view class="outline">28</view>
+					<view>31</view>
+				</view>
+				<view class="box">
+					<view class="status">合计</view>
+					<view>7</view>
+					<view class="outline">64</view>
+					<view>71</view>
+				</view>
+			</view>
+		</view>
+	</view>
+</template>
+
+<script>
+	import molTitle from '@/components/common/mol-title/mol-title.vue'
+	export default {
+		components: {
+			molTitle
+		},
+		data() {
+			return {
+				titleInfo: '终端汇总'
+			}
+		},
+		// 监听状态栏增加按钮事件
+		onNavigationBarButtonTap(e) {
+			console.log(e);
+			uni.navigateTo({
+				url: '../components/terminal-alarm/terminal-alarm'
+			})
+		},
+		methods: {
+			
+		}
+	}
+</script>
+
+<style lang="scss" scoped>
+	.terminal-wrap {
+		.content {
+			background-color: #fff;
+			margin: 10rpx 0;
+			padding: 20rpx;
+			display: flex;
+			flex-direction: column;
+			.body {
+				display: flex;
+				flex-direction: column;
+				.box {
+					display: flex;
+					justify-content: space-between;
+					margin: 10rpx 0;
+					font-size: 28rpx;
+					.status {
+						color: $theme-color;
+					}
+					.outline {
+						color: #ff0000;
+					}
+				}
+			}
+		}
+	}
+</style>

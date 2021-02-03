@@ -1,0 +1,7 @@
+{
+  "navigationBarTitleText": "场景",
+  "usingComponents": {
+    "tab": "/components/common/tab/tab",
+    "mol-title": "/components/common/mol-title/mol-title"
+  }
+}

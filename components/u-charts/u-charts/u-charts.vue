@@ -1,0 +1,263 @@
+<template>
+	<canvas 
+	v-if="canvasId" 
+	:id="canvasId" 
+	:canvasId="canvasId" 
+	:style="{'width':cWidth*pixelRatio+'px','height':cHeight*pixelRatio+'px', 'transform': 'scale('+(1/pixelRatio)+')'}">
+	</canvas>
+</template>
+
+<script>
+	import uCharts from './u-charts.js';
+	var canvases = {};
+	
+	export default {
+		props: {
+			chartType: {
+				required: true,
+				type: String,
+				default: 'column'
+			},
+			opts: {
+				required: true,
+				type: Object,
+				default () {
+					return null;
+				},
+			},
+			canvasId: {
+				type: String,
+				default: 'u-canvas',
+			},
+			legendShow: {
+				type: Boolean,
+				default: false
+			},
+			dataLabelShow: {
+				type: Boolean,
+				default: false
+			},
+			cWidth: {
+				default: 375,
+			},
+			cHeight: {
+				default: 250,
+			},
+			pixelRatio: {
+				type: Number,
+				default: 1,
+			},
+		},
+		mounted() {
+			this.init();
+		},
+		methods: {
+			init() {
+				switch (this.chartType) {
+					case 'column':
+						this.initColumnChart();
+						break;
+					case 'line':
+						this.initLineChart();
+						break;
+					case 'ring':
+						this.initRingChart();
+						break;
+					case 'map':
+						this.getServerData();
+						this.initMapChart();
+						break;
+					default:
+						break;
+				}
+			},
+			
+			// 获取地图数据
+			getServerData(){
+				uni.request({
+					url: 'https://www.ucharts.cn/map.json',
+					data:{
+					},
+					crossDomain: true,
+					success: function(res) {
+						console.log(res.data.features)
+						this.opts.series = res.data.features;
+					},
+					fail: () => {
+						this.tips="网络错误，小程序端请检查合法域名";
+					},
+				});
+			},
+			
+			// 柱状图
+			initColumnChart() {
+				canvases[this.canvasId] = new uCharts({
+					$this: this,
+					canvasId: this.canvasId,
+					type: 'column',
+					padding: [15,5,0,15],
+					legend: {
+						show: false,
+						// padding:5,
+						// lineHeight:11,
+						// margin:0,
+					},
+					fontSize: 11,
+					background: '#FFFFFF',
+					pixelRatio: this.pixelRatio,
+					animation: true,
+					categories: this.opts.categories,
+					series: this.opts.series,
+					xAxis: {
+						//纵向辅助线，关闭
+							disableGrid: true,
+							itemCount: 5, //x轴单屏显示数据的数量，默认为5个
+							scrollShow: false, //新增是否显示滚动条，默认false
+							scrollAlign: 'left', //滚动条初始位置
+							scrollBackgroundColor: '#F7F7FF', //默认为 #EFEBEF
+							scrollColor: '#DEE7F7', //默认为 #A6A6A6
+						},
+					yAxis: {
+						//横向辅助线，默认开启，样式为虚线
+							gridType: 'dash'
+					},
+					dataLabel: true,
+					width: this.cWidth * this.pixelRatio,
+					height: this.cHeight * this.pixelRatio,
+					extra: {
+						column: {
+							type:'group',
+							// width: this.cWidth * this.pixelRatio*0.45/this.categories.length
+						}
+					  }
+				});
+			},
+			
+			// 折线图
+			initLineChart() {
+				canvases[this.canvasId] = new uCharts({
+					$this: this,
+					canvasId: this.canvasId,
+					type: 'line',
+					fontSize: 11,
+					legend: {
+						show: false,
+						// padding:5,
+						// lineHeight:11,
+						// margin:0,
+					},
+					dataLabel: false,
+					dataPointShape: true,
+					background: '#FFFFFF',
+					pixelRatio: this.pixelRatio,
+					categories: this.opts.categories,
+					series: this.opts.series,
+					animation: true,
+					enableScroll: true,
+					xAxis: {
+						//纵向辅助线，关闭
+							disableGrid: true,
+							itemCount: 5, //x轴单屏显示数据的数量，默认为5个
+							scrollShow: false, //新增是否显示滚动条，默认false
+							scrollAlign: 'left', //滚动条初始位置
+							scrollBackgroundColor: '#F7F7FF', //默认为 #EFEBEF
+							scrollColor: '#DEE7F7', //默认为 #A6A6A6
+						},
+					yAxis: {
+						//横向辅助线，默认开启，样式为虚线
+							gridType: 'dash'
+					},
+					width: this.cWidth * this.pixelRatio,
+					height: this.cHeight * this.pixelRatio,
+					extra: {
+						line: {
+							type: 'straight'
+						}
+					}
+				});
+			},
+			
+			// 环形图
+			initRingChart() {
+				canvases[this.canvasId] = new uCharts({
+					colors: ['#fe2525', '#fb7d2a', '#fccd31', '#1a8ffa'],
+					$this: this,
+					canvasId: this.canvasId,
+					type: 'ring',
+					legend:{
+						show: this.legendShow,
+						position: 'left',
+						float: 'top',
+						margin: '-5'
+						},
+					fontSize: 11,
+					background: '#FFFFFF',
+					title: {
+						name: this.opts.total,
+						color: '#7cb5ec',
+						fontSize: 25,
+						offsetY: 20,
+					},
+					subtitle: {
+						name: this.opts.title,
+						color: '#666666',
+						fontSize: 15 * this.pixelRatio,
+						offsetY: -35 * this.pixelRatio,  // 这个调节字在中间圆的位置  中间没有字的就整个subtitle注销
+					},
+					extra: {
+						pie: {
+							offsetAngle: -45,
+							ringWidth: 20 * this.pixelRatio,
+							labelWidth: 15
+						}
+					},
+					pixelRatio: this.pixelRatio,
+					animation: true,
+					series: this.opts.series,
+					enableScroll: true,
+					dataLabel: this.dataLabelShow,
+					dataPointShape:false,
+					width: this.cWidth * this.pixelRatio,
+					height: this.cHeight * this.pixelRatio,
+				});
+			},
+			
+			// 地图
+			initMapChart() {
+				canvases[this.canvasId] = new uCharts({
+					// colors: ['#fe2525', '#fb7d2a', '#fccd31', '#1a8ffa'],
+					  $this: this,
+					  canvasId: this.canvasId,
+					  type: 'map',
+					  legend:{
+					    show:false
+					  },
+				      fontSize:11,
+					  background:'#FFFFFF',
+					  pixelRatio: this.pixelRatio,
+					  series: this.opts.series,
+					  width: this.cWidth * this.pixelRatio,
+					  height: this.cHeight * this.pixelRatio,
+					  dataLabel:true,
+					  extra: {
+						map: {
+						  border:true,
+						  borderWidth:1,
+						  borderColor:'#666666',
+						  fillOpacity:0.6
+						}
+					  }
+				});
+			}
+		},
+	};
+</script>
+
+<style scoped>
+	.charts {
+		width: 100%;
+		height: 100%;
+		flex: 1;
+		background-color: #FFFFFF;
+	}
+</style>

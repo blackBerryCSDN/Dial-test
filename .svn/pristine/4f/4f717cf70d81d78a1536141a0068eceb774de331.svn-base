@@ -1,0 +1,254 @@
+<template>
+	<view class="scene-survey-wrap">
+		<!-- 场景概况 -->
+		<view class="scene-header">
+			<view class="scene-sum">
+				<view class="item" v-for="(item, index) in sceneSumList" :key="index">
+					<view class="item-icon">
+						<image :src="item.src"></image>
+					</view>
+					<view class="item-label">{{item.label}}</view>
+					<view class="item-value">{{item.value}}</view>
+				</view>
+			</view>
+		</view>
+		
+		<!-- 场景列表 -->
+		<view class="scene-body">
+			<view class="scene-item" v-for="(item, index) in taskList" :key="index">
+				<view class="item-header">
+					<view>
+						<text class="ico iconfont" :class="item.src"></text>
+						{{item.taskName}}
+					</view>
+					<view>
+						<text class="report">查看报表</text>
+					</view>
+				</view>
+				<view class="item-content">
+					<text class="left">类型：{{item.taskType}}</text>
+					<text class="center">状态：{{item.taskStatus}}</text>
+					<text>测试项目：{{item.testItem}}</text>
+					<text class="left">终端总数：{{item.total}}</text>
+					<text class="center">终端等待：{{item.wait}}</text>
+					<text>终端暂停：{{item.suspend}}</text>
+					<text class="left">正在执行：{{item.executing}}</text>
+					<text class="center">执行完成：{{item.complete}}</text>
+					<text>
+						<text class="detail" @click="detailDialog(item)">详情</text>
+					</text>
+				</view>
+			</view>
+		</view>
+		
+		<!-- 场景详情弹窗 -->
+		<uni-popup id="popup" ref="popup" type="center">
+			<detail-dialog :detailInfo="detailInfo" @closeDialog="closeDialog"></detail-dialog>
+		</uni-popup>
+	</view>
+</template>
+
+<script>
+	import uniPopup from '@/components/uni-popup/uni-popup.vue'
+	import detailDialog from '@/components/common/detail-dialog/detail-dialog.vue'
+	export default {
+		components: {
+			uniPopup,
+			detailDialog
+		},
+		data() {
+			return {
+				sceneSumList: [
+					{
+						src: '../../../static/image/scene/task.png',
+						label: '任务数',
+						value: '15'
+					},
+					{
+						src: '../../../static/image/scene/device.png',
+						label: '设备数',
+						value: '15'
+					},
+					{
+						src: '../../../static/image/scene/alarm.png',
+						label: '告警数',
+						value: '10'
+					},
+					{
+						src: '../../../static/image/scene/business.png',
+						label: '今日测试业务',
+						value: '6'
+					}
+				],
+				taskList: [
+					{
+						id: 'scene',
+						src: 'iconwanchengquerengouwubiankuang',
+						taskName: 'CDN演示测试',
+						taskType: '循环任务',
+						taskStatus: '完成',
+						testItem: '1',
+						total: '1',
+						wait: '0',
+						suspend: '0',
+						executing: '0',
+						complete: '0'
+					},
+					{
+						id: 'scene',
+						src: 'iconzhihang',
+						taskName: 'CDN演示测试',
+						taskType: '循环任务',
+						taskStatus: '正在执行',
+						testItem: '1',
+						total: '1',
+						wait: '0',
+						suspend: '0',
+						executing: '0',
+						complete: '0'
+					},
+					{
+						id: 'scene',
+						src: 'icondengdai',
+						taskName: 'CDN演示测试',
+						taskType: '循环任务',
+						taskStatus: '等待执行',
+						testItem: '1',
+						total: '1',
+						wait: '0',
+						suspend: '0',
+						executing: '0',
+						complete: '0'
+					},
+					{
+						id: 'scene',
+						src: 'iconiconstop',
+						taskName: 'CDN演示测试',
+						taskType: '循环任务',
+						taskStatus: '暂停',
+						testItem: '1',
+						total: '1',
+						wait: '0',
+						suspend: '0',
+						executing: '0',
+						complete: '0'
+					}
+				],
+				detailInfo: {}
+			}
+		},
+		methods: {
+			// 打开任务详情弹窗
+			detailDialog(val) {
+				this.detailInfo = val
+				this.$refs.popup.open()
+			},
+			
+			// 关闭任务详情弹窗
+			closeDialog() {
+				this.$refs.popup.close()
+				this.detailInfo = {}
+			}
+			
+		}
+	}
+</script>
+
+<style lang="scss" scoped>
+	.scene-survey-wrap {
+		.scene-header {
+			width: 100%;
+			height: 200rpx;
+			background-color: $theme-color;
+			background-image: url(../../../static/image/scene/scene_bg.png);
+			background-size: 100% 100%;
+			padding-top: 40rpx;
+			.scene-sum {
+				width: 710rpx;
+				background-color: #fff;
+				margin: 0 auto;
+				display: flex;
+				text-align: center;
+				padding: 30rpx 0;
+				.item {
+					display: flex;
+					flex: 1;
+					flex-direction: column;
+					font-size: 28rpx;
+					.item-icon {
+						width: 80rpx;
+						height: 80rpx;
+						margin: 0 auto;
+						image {
+							width: 100%;
+							height: 100%;
+						}
+					}
+					.item-label {
+						margin: 10rpx 0;
+					}
+					.item-value {
+						font-size: 30rpx;
+						font-weight: bold;
+					}
+				}
+			}
+		}
+		.scene-body {
+			width: 710rpx;
+			margin: 0 auto;
+			.scene-item:first-child {
+				margin-top: 60rpx;
+			}
+			.scene-item {
+				// width: 100%;
+				padding: 20rpx;
+				display: flex;
+				flex-direction: column;
+				margin: 20rpx auto;
+				background-color: #fff;
+				.item-header {
+					display: flex;
+					justify-content: space-between;
+					.ico {
+						background-image: linear-gradient(#88c2ff, #409eff);
+						color: #fff;
+						border-radius: 50%;
+						margin-right: 10rpx;
+					}
+					.report {
+						color: #fff;
+						background-color: #eb40ff;
+						padding: 6rpx 20rpx;
+						font-size: 20rpx;
+						border-radius: 16px;
+					} 
+				}
+				.item-content {
+					display: flex;
+					flex-wrap: wrap;
+					font-size: 24rpx;
+					color: #777777;
+					text {
+						width: 33.33333333%;
+						margin: 6rpx 0;
+						text-align: right;
+					}
+					.detail {
+						color: #fff;
+						background-color: $theme-color;
+						padding: 6rpx 20rpx;
+						font-size: 20rpx;
+						border-radius: 16px;
+					}
+					.left {
+						text-align: left;
+					}
+					.center {
+						text-align: center;
+					}
+				}
+			}
+		}
+	}
+</style>

@@ -1,0 +1,140 @@
+{
+	"pages": [ //pages数组中第一项表示应用启动页，参考：https://uniapp.dcloud.io/collocation/pages
+		{
+		    "path" : "pages/login/login",
+			"style": {
+				"enablePullDownRefresh": false,
+				"navigationStyle": "custom"
+			}
+		},
+		{
+			"path": "pages/index/index",
+			"style": {
+				"navigationBarTitleText": "首页",
+				"app-plus": {
+					"titleNView": {
+						"autoBackButton": false,
+						"buttons": [
+							// {
+							// 	"text": "\ue635",
+							// 	"fontSrc": "/static/fonts/iconfont.ttf",
+							// 	"fontSize": "22px",
+							// 	"float": "right"
+							// },
+							{
+								"text": "\ue627",
+								"fontSrc": "/static/fonts/iconfont.ttf",
+								"fontSize": "22px",
+								"float": "right"
+							}
+						]
+					}
+				}
+			}
+		},
+		{
+			"path": "pages/scene/scene",
+			"style": {
+				"navigationBarTitleText": "场景"
+			}
+		},
+		{
+			"path": "pages/terminal/terminal",
+			"style": {
+				"navigationBarTitleText": "终端",
+				"app-plus": {
+					"titleNView": {
+						"autoBackButton": false,
+						"buttons": [
+							{
+								"text": "\ue635",
+								"fontSrc": "/static/fonts/iconfont.ttf",
+								"fontSize": "22px",
+								"float": "right"
+							}
+						]
+					}
+				}
+			}
+		},
+		{
+			"path": "pages/profile/profile",
+			"style": {
+				"navigationBarTitleText": "我的"
+			}
+		}
+        ,{
+            "path" : "pages/components/scene-survey/scene-survey",
+            "style" :                                                                                    
+            {
+                "navigationBarTitleText": "场景概况",
+                "enablePullDownRefresh": false
+            }
+            
+        }
+        ,{
+            "path" : "pages/components/alarm-survey/alarm-survey",
+            "style" :                                                                                    
+            {
+                "navigationBarTitleText": "告警概况",
+                "enablePullDownRefresh": false
+            }
+            
+        }
+        ,{
+            "path" : "pages/components/alarm-summary/alarm-summary",
+            "style" :                                                                                    
+            {
+                "navigationBarTitleText": "告警汇总",
+                "enablePullDownRefresh": false
+            }
+            
+        }
+        ,{
+            "path" : "pages/components/terminal-alarm/terminal-alarm",
+            "style" :                                                                                    
+            {
+                "navigationBarTitleText": "终端告警",
+                "enablePullDownRefresh": false
+            }
+            
+        }
+    ],
+	"globalStyle": {
+		"navigationBarTextStyle": "white",
+		"navigationBarTitleText": "uni-app",
+		"navigationBarBackgroundColor": "#409eff",
+		"backgroundColor": "#F8F8F8"
+	},
+	"tabBar": {
+		"color": "#a4a4a4",
+		"selectedColor": "#409eff",
+		"backgroundColor": "#ffffff",
+		"list": [
+			{
+				"text": "首页",
+				"pagePath": "pages/index/index",
+				"iconPath": "static/icon/home.png",
+				"selectedIconPath": "static/icon/home-active.png"
+			},
+			{
+				"text": "场景",
+				"pagePath": "pages/scene/scene",
+				"iconPath": "static/icon/scene.png",
+				"selectedIconPath": "static/icon/scene-active.png"
+			},
+			{
+				"text": "终端",
+				"pagePath": "pages/terminal/terminal",
+				"iconPath": "static/icon/terminal.png",
+				"selectedIconPath": "static/icon/terminal-active.png"
+			},
+			{
+				"text": "我的",
+				"pagePath": "pages/profile/profile",
+				"iconPath": "static/icon/mine.png",
+				"selectedIconPath": "static/icon/mine-active.png"
+			}
+		]
+	}
+}
